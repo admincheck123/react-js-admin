@@ -38,6 +38,8 @@ export default function CategoryPage() {
   const onFinish = useCallback(
     async (values) => {
       try {
+        console.log('««««« values »»»»»', values);
+        debugger;
         const res = await axiosClient.post('/category', {
           ...values,
           isDeleted: false,

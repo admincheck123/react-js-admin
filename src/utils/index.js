@@ -3,7 +3,7 @@ export const convertOptionSelect = (data) => {
 
   return data.map((item) => {
     return {
-      value: item._id,
+      value: item.id || item._id,
       label: item.name,
     };
   })

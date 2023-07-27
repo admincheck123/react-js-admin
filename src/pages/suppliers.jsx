@@ -10,8 +10,8 @@ import {
   Modal,
 } from 'antd';
 
-import CategoryForm from '../components/CategoryForm'
 import axiosClient from '../libraries/axiosClient';
+import SupplierForm from '../components/SupplierForm';
 
 const MESSAGE_TYPE = {
   SUCCESS: 'success',
@@ -20,7 +20,7 @@ const MESSAGE_TYPE = {
   ERROR: 'error',
 };
 
-export default function CategoryPage() {
+export default function SuppliersPage() {
   const [createForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
   const [refresh, setRefresh] = useState(0);
@@ -38,7 +38,9 @@ export default function CategoryPage() {
   const onFinish = useCallback(
     async (values) => {
       try {
-        const res = await axiosClient.post('/category', {
+        console.log('««««« values »»»»»', values);
+        debugger;
+        const res = await axiosClient.post('/supplier', {
           ...values,
           isDeleted: false,
         });
@@ -61,10 +63,11 @@ export default function CategoryPage() {
   return (
     <>
       {contextHolder}
-      <CategoryForm
+
+      <SupplierForm
         form={createForm}
         onFinish={onFinish}
-        formName="add-category-form"
+        formName="add-supplier-form"
         optionStyle={{
           maxWidth: 900,
           margin: '60px auto',

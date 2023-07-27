@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import CategoryPage from './pages/Categories';
+import SupplierPage from './pages/suppliers';
 import ProductList from './pages/product';
 import ProductDetail from './pages/product/ProductDetail';
 
@@ -17,6 +18,7 @@ function App() {
       <Route path="products" element={<ProductList />} />
       <Route path="products/:id" element={<ProductDetail />} />
       <Route path="categories" element={<CategoryPage />} />
+      <Route path="suppliers" element={<SupplierPage />} />
       {/* <Route path="*" element={<NoPage />} /> */}
       {/* </Route> */}
     </Routes>

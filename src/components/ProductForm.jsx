@@ -42,10 +42,25 @@ function ProductForm(props) {
           },
         ]}
       >
-        <Select>
-          <Option value="male">Nam</Option>
+        <Select
+          options={[
+            {
+              value: 'male',
+              label: 'Nam',
+            },
+            {
+              value: 'female',
+              label: 'Nữ',
+            },
+            {
+              value: 'other',
+              label: 'Khác',
+            },
+          ]}
+        >
+          {/* <Option value="male">Nam</Option>
           <Option value="female">Nữ</Option>
-          <Option value="other">Khác</Option>
+          <Option value="other">Khác</Option> */}
         </Select>
       </Form.Item>
 
@@ -59,7 +74,13 @@ function ProductForm(props) {
           },
         ]}
       >
-        <Select options={convertOptionSelect(suppliers)} />
+        <Select
+          // options={convertOptionSelect(suppliers)}
+        >
+          {suppliers.map((item) => (
+            <Option value={item.id || item._id}>{item.name}</Option>
+          ))}
+        </Select>
       </Form.Item>
 
       <Form.Item
