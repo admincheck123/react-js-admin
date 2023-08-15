@@ -1,15 +1,12 @@
 import axios from "axios";
 
-// import { REFRESH_TOKEN, TOKEN } from "../constants";
-
 const axiosClient = axios.create({
   baseURL: 'http://localhost:9000',
   headers: { "Content-Type": "application/json" },
 });
 
-
 // axiosClient.interceptors.request.use((config) => {
-//   const token = window.localStorage.getItem(TOKEN);
+//   const token = window.localStorage.getItem("TOKEN");
 
 //   if (token) {
 //     config.headers['Authorization'] = `Bearer ${token}`;

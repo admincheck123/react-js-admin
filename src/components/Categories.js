@@ -40,7 +40,7 @@ export default function CategoryPage() {
       try {
         console.log('««««« values »»»»»', values);
         debugger;
-        const res = await axiosClient.post('/category', {
+        const res = await axiosClient.post('/categories', {
           ...values,
           isDeleted: false,
         });

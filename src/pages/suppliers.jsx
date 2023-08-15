@@ -38,9 +38,7 @@ export default function SuppliersPage() {
   const onFinish = useCallback(
     async (values) => {
       try {
-        console.log('««««« values »»»»»', values);
-        debugger;
-        const res = await axiosClient.post('/supplier', {
+        const res = await axiosClient.post('/suppliers', {
           ...values,
           isDeleted: false,
         });

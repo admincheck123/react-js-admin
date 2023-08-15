@@ -70,7 +70,7 @@ export default function Products() {
   const onFinish = useCallback(
     async (values) => {
       try {
-        const res = await axiosClient.post('/product', values);
+        const res = await axiosClient.post('/products', values);
 
         setRefresh((preState) => preState + 1);
         createForm.resetFields();
@@ -217,7 +217,8 @@ export default function Products() {
       dataIndex: 'discountedPrice',
       key: 'discountedPrice',
       render: function (text, record, index) {
-        return <strong>{numeral(text).format('0,0$')}</strong>;
+        const discountedPrice = record.price * (100 - record.discount) / 100;
+        return <strong>{numeral(discountedPrice).format('0,0$')}</strong>;
       },
     },
     {
@@ -226,7 +227,7 @@ export default function Products() {
       dataIndex: 'description',
     },
     {
-      title: '',
+      title: 'Hành động',
       key: 'actions',
       width: '1%',
       render: (text, record, index) => {
@@ -239,9 +240,9 @@ export default function Products() {
             />
 
             <Popconfirm
-              title="Are you sure to delete?"
+              title="Mày chắc muốn xóa không"
               okText="Đồng ý"
-              cancelText="Đóng"
+              cancelText="Hủy"
               onConfirm={onDeleteProduct(record._id)}
             >
               <Button danger type="dashed" icon={<DeleteOutlined />} />
@@ -254,7 +255,7 @@ export default function Products() {
 
   const getSuppliers = useCallback(async () => {
     try {
-      const res = await axiosClient.get('/supplier');
+      const res = await axiosClient.get('/suppliers');
       setSuppliers(res.data.payload);
     } catch (error) {
       console.log(error);
@@ -263,7 +264,7 @@ export default function Products() {
 
   const getCategories = useCallback(async () => {
     try {
-      const res = await axiosClient.get('/category');
+      const res = await axiosClient.get('/categories');
       setCategories(res.data.payload || []);
     } catch (error) {
       console.log(error);
@@ -272,7 +273,7 @@ export default function Products() {
 
   const getProductData = useCallback(async () => {
     try {
-      const res = await axiosClient.get('/product');
+      const res = await axiosClient.get('/products');
       setProducts(res.data.payload);
     } catch (error) {
       console.log(error);

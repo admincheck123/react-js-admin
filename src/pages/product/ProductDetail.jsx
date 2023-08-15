@@ -43,7 +43,7 @@ export default function Products() {
 
       onShowMessage(response.data.message);
 
-      navigate('/product');
+      navigate('/products');
     } catch (error) {
       console.log('««««« error »»»»»', error);
     }
@@ -51,7 +51,7 @@ export default function Products() {
 
   const getSuppliers = useCallback(async () => {
     try {
-      const res = await axiosClient.get('/supplier');
+      const res = await axiosClient.get('/suppliers');
       setSuppliers(res.data.payload);
     } catch (error) {
       console.log(error);
@@ -60,7 +60,7 @@ export default function Products() {
 
   const getCategories = useCallback(async () => {
     try {
-      const res = await axiosClient.get('/category');
+      const res = await axiosClient.get('/categories');
       setCategories(res.data.payload || []);
     } catch (error) {
       console.log(error);
@@ -69,7 +69,7 @@ export default function Products() {
 
   const getProductData = useCallback(async () => {
     try {
-      const res = await axiosClient.get(`/product/${params.id}`);
+      const res = await axiosClient.get(`/products/${params.id}`);
 
       productForm.setFieldsValue(res.data.payload);
     } catch (error) {

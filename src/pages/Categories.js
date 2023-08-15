@@ -38,7 +38,7 @@ export default function CategoryPage() {
   const onFinish = useCallback(
     async (values) => {
       try {
-        const res = await axiosClient.post('/category', {
+        const res = await axiosClient.post('/categories', {
           ...values,
           isDeleted: false,
         });
