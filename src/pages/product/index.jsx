@@ -127,7 +127,7 @@ export default function Products() {
   const onEditFinish = useCallback(
     async (values) => {
       try {
-        const response = await axiosClient.patch(
+        const response = await axiosClient.put(
           `products/${selectedProduct._id}`,
           values,
         );
@@ -138,12 +138,24 @@ export default function Products() {
 
         onShowMessage(response.data.message);
 
-        setRefresh((prevState) => prevState + 1);
+        const newList = products.map((item) => {
+          if (item._id === selectedProduct._id) {
+            return {
+              ...item,
+              ...values,
+            };
+          } 
+          return item;
+        })
+
+        setProducts(newList);
+
+        // setRefresh((prevState) => prevState + 1);
       } catch (error) {
         console.log('««««« error »»»»»', error);
       }
     },
-    [onShowMessage, selectedProduct?._id, updateForm],
+    [onShowMessage, products, selectedProduct?._id, updateForm],
   );
 
   const columns = [
