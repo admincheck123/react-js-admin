@@ -8,6 +8,7 @@ import {
   Popconfirm,
   Space,
   Modal,
+  Pagination,
 } from 'antd';
 import numeral from 'numeral';
 import 'numeral/locales/vi';
@@ -26,10 +27,15 @@ const MESSAGE_TYPE = {
 
 numeral.locale('vi');
 
+const DEFAULT_LIMIT = 3;
+
 export default function Products() {
   const [products, setProducts] = useState([]);
+  const [total, setTotal] = useState(0);
   const [categories, setCategories] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
+
+  console.log('««««« total »»»»»', total);
 
   const [refresh, setRefresh] = useState(0);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -252,14 +258,19 @@ export default function Products() {
     }
   }, []);
 
-  const getProductData = useCallback(async () => {
+  const getProducts = useCallback(async (page, pageSize) => {
     try {
-      const res = await axiosClient.get('/products');
+      const res = await axiosClient.get(`/products?page=${page}&pageSize=${pageSize}`);
       setProducts(res.data.payload);
+      setTotal(res.data.total);
     } catch (error) {
       console.log(error);
     }
   }, []);
+
+  const onChangePage = useCallback((page, pageSize) => {
+    getProducts(page, pageSize);
+  }, [getProducts]);
 
   useEffect(() => {
     getSuppliers();
@@ -268,26 +279,25 @@ export default function Products() {
   }, [getCategories, getSuppliers]);
 
   useEffect(() => {
-    getProductData();
-  }, [getProductData, refresh]);
+    getProducts(1, DEFAULT_LIMIT);
+  }, [getProducts, refresh]);
 
   return (
     <>
       {contextHolder}
+      <Table
+        rowKey="_id"
+        dataSource={products}
+        columns={columns}
+        pagination={false}
+      />
 
-      {/* <ProductForm
-        form={createForm}
-        suppliers={suppliers}
-        categories={categories}
-        onFinish={onFinish}
-        formName="add-product-form"
-        optionStyle={{
-          maxWidth: 900,
-          margin: '60px auto',
-        }}
-      /> */}
-
-      <Table rowKey="_id" dataSource={products} columns={columns} />
+      <Pagination
+        defaultCurrent={1}
+        total={total}
+        pageSize={DEFAULT_LIMIT}
+        onChange={onChangePage}
+      />
 
       <Modal
         open={editModalVisible}
