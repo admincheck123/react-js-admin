@@ -33,6 +33,7 @@ function App() {
     </Routes> : <Routes>
       <Route index element={<ProductList />} />
       <Route path="products" element={<ProductList />} />
+      {/* <Route path={LOCATIONS.PRODUCTS_ADD} element={<ProductDetail />} /> */}
       <Route path="products/:id" element={<ProductDetail />} />
       <Route path="categories" element={<CategoryPage />} />
       <Route path="suppliers" element={<SupplierPage />} />

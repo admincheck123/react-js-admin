@@ -67,37 +67,6 @@ export default function Products() {
     [messageApi],
   );
 
-  const onFinish = useCallback(
-    async (values) => {
-      try {
-        const res = await axiosClient.post('/products', values);
-
-        setRefresh((preState) => preState + 1);
-        createForm.resetFields();
-
-        // onShowMessage('Thêm sản phẩm thành công');
-        onShowMessage(res.data.message);
-
-        // setRefresh(refresh + 1);
-
-        // CASE 1
-        // const newItem = res.data.payload;
-
-        // setProducts((preState) => ([
-        //   ...preState,
-        //   newItem,
-        // ]))
-      } catch (error) {
-        if (error?.response?.data?.errors) {
-          error.response.data.errors.map((e) =>
-            onShowMessage(e, MESSAGE_TYPE.ERROR),
-          );
-        }
-      }
-    },
-    [createForm, onShowMessage],
-  );
-
   const onSelectProduct = useCallback(
     (data) => () => {
       setEditModalVisible(true);
@@ -306,7 +275,7 @@ export default function Products() {
     <>
       {contextHolder}
 
-      <ProductForm
+      {/* <ProductForm
         form={createForm}
         suppliers={suppliers}
         categories={categories}
@@ -316,9 +285,9 @@ export default function Products() {
           maxWidth: 900,
           margin: '60px auto',
         }}
-      />
+      /> */}
 
-      <Table rowKey="id" dataSource={products} columns={columns} />
+      <Table rowKey="_id" dataSource={products} columns={columns} />
 
       <Modal
         open={editModalVisible}

@@ -6,6 +6,7 @@ export const LOCATIONS = {
   TAB: '/tabs',
   SLIDE: '/slider',
   PRODUCTS: '/products',
+  PRODUCTS_ADD: '/products/add',
   TEMPLATE: '/template',
   COUNTER: '/counter',
   TODO: '/todo',

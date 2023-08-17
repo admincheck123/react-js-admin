@@ -7,6 +7,7 @@ import 'numeral/locales/vi';
 
 import axiosClient from '../../libraries/axiosClient';
 import ProductForm from '../../components/ProductForm';
+import { LOCATIONS } from 'constants/index';
 
 const MESSAGE_TYPE = {
   SUCCESS: 'success',
@@ -17,7 +18,7 @@ const MESSAGE_TYPE = {
 
 numeral.locale('vi');
 
-export default function Products() {
+export default function ProductDetail() {
   const params = useParams();
   const navigate = useNavigate();
 
@@ -85,6 +86,27 @@ export default function Products() {
 
   const isEditProduct = useMemo(() => !(params.id === 'add'), [params.id]);
 
+  const onAddProduct = useCallback(
+    async (values) => {
+      try {
+        const res = await axiosClient.post('/products', values);
+
+        productForm.resetFields();
+
+        onShowMessage(res.data.message);
+
+        navigate(LOCATIONS.PRODUCTS)
+      } catch (error) {
+        if (error?.response?.data?.errors) {
+          error.response.data.errors.map((e) =>
+            onShowMessage(e, MESSAGE_TYPE.ERROR),
+          );
+        }
+      }
+    },
+    [navigate, onShowMessage, productForm],
+  );
+
   useEffect(() => {
     if (isEditProduct) {
       getProductData();
@@ -104,10 +126,10 @@ export default function Products() {
           maxWidth: 900,
           margin: '60px auto',
         }}
-        isHiddenSubmit
+        onFinish={onAddProduct}
       />
 
-      {isEditProduct ? (
+      {isEditProduct && (
         <Popconfirm
           title="Are you sure to delete?"
           okText="Đồng ý"
@@ -118,12 +140,7 @@ export default function Products() {
             Xóa
           </Button>
         </Popconfirm>
-      ) : (
-        <Button type="primary">
-          Thêm
-        </Button>
-      )
-    }
+      )}
     </>
   );
 }

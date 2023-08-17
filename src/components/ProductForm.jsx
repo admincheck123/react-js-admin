@@ -28,42 +28,7 @@ function ProductForm(props) {
       wrapperCol={{ span: 16 }}
       style={optionStyle}
       onFinish={onFinish}
-      initialValues={{
-        gender: 'female',
-      }}
     >
-      <Form.Item
-        label="Giới tính"
-        name="gender"
-        rules={[
-          {
-            required: true,
-            message: 'Vui lòng chọn giới tính',
-          },
-        ]}
-      >
-        <Select
-          options={[
-            {
-              value: 'male',
-              label: 'Nam',
-            },
-            {
-              value: 'female',
-              label: 'Nữ',
-            },
-            {
-              value: 'other',
-              label: 'Khác',
-            },
-          ]}
-        >
-          {/* <Option value="male">Nam</Option>
-          <Option value="female">Nữ</Option>
-          <Option value="other">Khác</Option> */}
-        </Select>
-      </Form.Item>
-
       <Form.Item
         label="Nhà cung cấp"
         name="supplierId"
@@ -75,10 +40,9 @@ function ProductForm(props) {
         ]}
       >
         <Select
-          // options={convertOptionSelect(suppliers)}
         >
           {suppliers.map((item) => (
-            <Option value={item.id || item._id}>{item.name}</Option>
+            <Option key={item._id} value={item.id || item._id}>{item.name}</Option>
           ))}
         </Select>
       </Form.Item>
