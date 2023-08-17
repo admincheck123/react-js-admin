@@ -81,7 +81,7 @@ export default function Products() {
   const onDeleteProduct = useCallback(
     (productId) => async () => {
       try {
-        const response = await axiosClient.delete(`products/${productId}`);
+        const response = await axiosClient.patch(`products/delete/${productId}`);
 
         onShowMessage(response.data.message);
 

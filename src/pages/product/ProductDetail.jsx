@@ -40,11 +40,11 @@ export default function ProductDetail() {
 
   const onDeleteProduct = useCallback(async () => {
     try {
-      const response = await axiosClient.delete(`products/${params.id}`);
+      const response = await axiosClient.patch(`products/delete/${params.id}`);
 
       onShowMessage(response.data.message);
 
-      navigate('/products');
+      navigate(LOCATIONS.PRODUCTS);
     } catch (error) {
       console.log('««««« error »»»»»', error);
     }
