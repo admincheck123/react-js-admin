@@ -27,41 +27,24 @@ const MESSAGE_TYPE = {
 
 numeral.locale('vi');
 
-const DEFAULT_LIMIT = 3;
+const DEFAULT_LIMIT = 6;
 
 export default function Products() {
   const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    pageSize: DEFAULT_LIMIT,
+  });
   const [categories, setCategories] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
-
-  console.log('««««« total »»»»»', total);
 
   const [refresh, setRefresh] = useState(0);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const [createForm] = Form.useForm();
   const [updateForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
-
-  const onShowToast = useCallback(
-    ({
-      message = 'Thành công',
-      description = 'Thành công',
-      type = MESSAGE_TYPE.SUCCESS,
-    }) => {
-      return (
-        <Alert
-          message={message}
-          description={description}
-          type={type}
-          showIcon
-        />
-      );
-    },
-    [],
-  );
 
   const onShowMessage = useCallback(
     (content, type = MESSAGE_TYPE.SUCCESS) => {
@@ -139,8 +122,8 @@ export default function Products() {
       dataIndex: 'No',
       key: 'no',
       width: '1%',
-      render: function (a, b, c) {
-        return <span>{c + 1}</span>;
+      render: function (text, record, index) {
+        return <span>{(index + 1) + (pagination.pageSize * (pagination.page - 1))}</span>;
       },
     },
     {
@@ -258,18 +241,27 @@ export default function Products() {
     }
   }, []);
 
-  const getProducts = useCallback(async (page, pageSize) => {
+  const getProducts = useCallback(async () => {
     try {
-      const res = await axiosClient.get(`/products?page=${page}&pageSize=${pageSize}`);
+      const res = await axiosClient.get(`/products?page=${pagination.page}&pageSize=${pagination.pageSize}`);
       setProducts(res.data.payload);
-      setTotal(res.data.total);
+      setPagination((prev) => ({
+        ...prev,
+        total: res.data.total,
+      }))
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [pagination.page, pagination.pageSize]);
 
   const onChangePage = useCallback((page, pageSize) => {
-    getProducts(page, pageSize);
+    setPagination((prev) => ({
+      ...prev,
+      page,
+      pageSize,
+    }));
+
+    getProducts();
   }, [getProducts]);
 
   useEffect(() => {
@@ -279,7 +271,7 @@ export default function Products() {
   }, [getCategories, getSuppliers]);
 
   useEffect(() => {
-    getProducts(1, DEFAULT_LIMIT);
+    getProducts();
   }, [getProducts, refresh]);
 
   return (
@@ -294,9 +286,10 @@ export default function Products() {
 
       <Pagination
         defaultCurrent={1}
-        total={total}
+        total={pagination.total}
         pageSize={DEFAULT_LIMIT}
         onChange={onChangePage}
+        current={pagination.page}
       />
 
       <Modal
