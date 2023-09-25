@@ -44,8 +44,11 @@ export default function ProductDetail() {
 
       onShowMessage(response.data.message);
 
-      navigate(LOCATIONS.PRODUCTS);
+      setTimeout(() => {
+        navigate(LOCATIONS.PRODUCTS);
+      }, 1000)
     } catch (error) {
+      onShowMessage("Xóa Không thành công", MESSAGE_TYPE.ERROR);
       console.log('««««« error »»»»»', error);
     }
   }, [navigate, onShowMessage, params.id]);
@@ -141,9 +144,9 @@ export default function ProductDetail() {
 
       {isEditProduct && (
         <Popconfirm
-          title="Are you sure to delete?"
-          okText="Đồng ý"
-          cancelText="Đóng"
+          title="Bạn có chắc muốn xóa?"
+          okText="Xóa"
+          cancelText="Hủy"
           onConfirm={onDeleteProduct}
         >
           <Button danger type="dashed" icon={<DeleteOutlined />}>

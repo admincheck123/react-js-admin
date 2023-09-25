@@ -131,7 +131,8 @@ export default function Products() {
       dataIndex: 'name',
       key: 'name',
       render: function (text, record) {
-        return <Link to={`${record._id}`}>{text}</Link>;
+        return <Link to={`/products/${record._id}`}>{text}</Link>;
+        // return <Link to={`${record._id}`}>{text}</Link>;
       },
     },
     {
@@ -140,7 +141,7 @@ export default function Products() {
       key: 'supplierName',
       render: function (text, record) {
         return (
-          <Link to={`suppliers/${record.supplier?._id}`}>
+          <Link to={`/suppliers/${record.supplier?._id}`}>
             {record.supplier?.name}
           </Link>
         ); // record.supplier && record.supplier._id
@@ -152,7 +153,7 @@ export default function Products() {
       key: 'categoryName',
       render: function (text, record) {
         return (
-          <Link to={`categories/${record.category._id}`}>
+          <Link to={`/categories/${record.category._id}`}>
             {record.category.name}
           </Link>
         );
