@@ -68,8 +68,17 @@ function ProductForm(props) {
           { max: 50, message: 'Tối đa 50 ký tự' },
         ]}
       >
-        <Input />
+        <Input allowClear />
       </Form.Item>
+      {/* <Form.Item shouldUpdate noStyle>
+        {({ getFieldError, getFieldValue }) => (
+          <ul>
+            {getFieldError("discount").map((x, i) => (
+              <li key={i}>{x}</li>
+            ))}
+          </ul>
+        )}
+      </Form.Item> */}
 
       <Form.Item
         label="Giá gốc"

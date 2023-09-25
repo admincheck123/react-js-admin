@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axiosClient from 'libraries/axiosClient';
@@ -18,28 +18,41 @@ function App() {
 
   const token = window.localStorage.getItem('TOKEN');
 
-  useEffect(() => {
-    if (token) {
-      axiosClient.defaults.headers.Authorization = `Bearer ${token}`;
-    } else {
-      navigate(LOCATIONS.LOGIN);
-    }
-  }, [navigate, token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     axiosClient.defaults.headers.Authorization = `Bearer ${token}`;
+  //   } else {
+  //     navigate(LOCATIONS.LOGIN);
+  //   }
+  // }, [navigate, token]);
 
 
   return (
-    !token ? <Routes>
-      <Route path="login" element={<Login />} />
-    </Routes> : <Routes>
+    <Routes>
       <Route index element={<ProductList />} />
       <Route path="products" element={<ProductList />} />
       {/* <Route path={LOCATIONS.PRODUCTS_ADD} element={<ProductDetail />} /> */}
+      {/* <Route path="products/add" element={<CreateProduct />} /> */}
       <Route path="products/:id" element={<ProductDetail />} />
       <Route path="categories" element={<CategoryPage />} />
       <Route path="suppliers" element={<SupplierPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
+  // return (
+  //   !token ? <Routes>
+  //     <Route path="login" element={<Login />} />
+  //   </Routes> : <Routes>
+  //     <Route index element={<ProductList />} />
+  //     <Route path="products" element={<ProductList />} />
+  //     {/* <Route path={LOCATIONS.PRODUCTS_ADD} element={<ProductDetail />} /> */}
+  //     {/* <Route path="products/add" element={<CreateProduct />} /> */}
+  //     <Route path="products/:id" element={<ProductDetail />} />
+  //     <Route path="categories" element={<CategoryPage />} />
+  //     <Route path="suppliers" element={<SupplierPage />} />
+  //     <Route path="*" element={<NotFound />} />
+  //   </Routes>
+  // );
 }
 
 export default App;

@@ -89,13 +89,23 @@ export default function ProductDetail() {
   const onAddProduct = useCallback(
     async (values) => {
       try {
-        const res = await axiosClient.post('/products', values);
-
-        productForm.resetFields();
-
-        onShowMessage(res.data.message);
-
-        navigate(LOCATIONS.PRODUCTS)
+        if (!isEditProduct) {
+          const res = await axiosClient.post('/products', values);
+  
+          productForm.resetFields();
+  
+          onShowMessage(res.data.message);
+  
+          navigate(LOCATIONS.PRODUCTS)
+        } else {
+          const res = await axiosClient.put(`/products/${params.id}`, values);
+  
+          productForm.resetFields();
+  
+          onShowMessage(res.data.message);
+  
+          navigate(LOCATIONS.PRODUCTS)
+        }
       } catch (error) {
         if (error?.response?.data?.errors) {
           error.response.data.errors.map((e) =>
